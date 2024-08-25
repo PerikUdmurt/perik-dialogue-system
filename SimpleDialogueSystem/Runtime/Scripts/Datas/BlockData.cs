@@ -1,5 +1,8 @@
-﻿namespace SimpleDialogueSystem
+﻿using System;
+
+namespace SimpleDialogueSystem
 {
+    [Serializable]
     public struct BlockData
     {
         public string text;
