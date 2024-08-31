@@ -16,6 +16,7 @@ public static class EditorWindowExtension
                 {
                     text = p.displayName
                 };
+
                 Debug.Log(p.displayName);
                 rootVisualElement.Add(foldout);
 

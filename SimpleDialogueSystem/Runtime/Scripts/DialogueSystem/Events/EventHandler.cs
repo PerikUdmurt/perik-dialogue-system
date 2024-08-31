@@ -30,6 +30,7 @@ namespace SimpleDialogueSystem.Events
         
     }
 
+    [NodeEvent("При окончании диалога", 245, 40, 145, 0.8f), Serializable]
     public struct OnEndDialogueEventData : IEvent
     {
 

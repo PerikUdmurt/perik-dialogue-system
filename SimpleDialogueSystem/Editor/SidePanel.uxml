@@ -1,3 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement style="flex-grow: 1; background-image: none; background-color: rgb(130, 130, 130); text-overflow: clip; -unity-slice-left: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; width: 272px; transform-origin: center;" />
+    <ui:Template name="Panel" src="project://database/Assets/Plugins/SimpleDialogueSystem/Editor/Panel.uxml?fileID=9197481963319205126&amp;guid=e261474389ac7ba44a86c9063de4d67c&amp;type=3#Panel" />
+    <ui:Instance template="Panel" name="Panel" style="height: 426px; width: 343px;" />
 </ui:UXML>

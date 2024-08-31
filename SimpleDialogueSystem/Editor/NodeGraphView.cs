@@ -1,10 +1,8 @@
-using System;
+using SimpleDialogueSystem.Editors.Nodes;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using SimpleDialogueSystem.Editors.Nodes;
 
 namespace SimpleDialogueSystem.Editors
 {
@@ -65,7 +63,6 @@ namespace SimpleDialogueSystem.Editors
                     actionName: "Add Node", 
                     actionEvent => AddElement(CreateNode(actionEvent.eventInfo.localMousePosition)))   
                 );
-            //AddAppend принимает два параметра (Название в контекстном меню, метод при нажатии)
             return contextualMenuManipulator;
         }
 
@@ -76,7 +73,6 @@ namespace SimpleDialogueSystem.Editors
                     actionName: "Add NoteNode",
                     actionEvent => AddElement(CreateNoteNode(actionEvent.eventInfo.localMousePosition)))
                 );
-            //AddAppend принимает два параметра (Название в контекстном меню, метод при нажатии)
             return contextualMenuManipulator;
         }
 
@@ -92,18 +88,6 @@ namespace SimpleDialogueSystem.Editors
             gridBackground.StretchToParentSize();
 
             Insert(0, gridBackground);
-        }
-    }
-
-    public class EditorNodeFactory
-    {
-        public T CreateEditorNode<T>(Vector2 position) where T : BaseNode, new()
-        {
-            T node = new();
-            node.Initialize(position);
-            node.Draw();
-
-            return node;
         }
     }
 }

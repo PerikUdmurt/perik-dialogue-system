@@ -1,10 +1,9 @@
+using CodiceApp.EventTracking.Plastic;
 using SimpleDialogueSystem.Editors.Nodes;
 using SimpleDialogueSystem.Events;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,8 +17,18 @@ namespace SimpleDialogueSystem.Editors
 
         public override void Initialize(Vector2 position)
         {
-            NodeName = "dialogue";
-            Events = new List<IEvent>();
+            Initialize(position, new());
+        }
+
+        public void Initialize(Vector2 position, List<IEvent> events)
+        {
+            NodeName = "Dialogue";
+            Events = new();
+
+            foreach (IEvent @event in events)
+            {
+                CreateEvent(@event);
+            }
 
             SetPosition(new Rect(position, Vector2.zero));
 
@@ -61,44 +70,46 @@ namespace SimpleDialogueSystem.Editors
         }
 
         //Поиск ивентов через рефлексию в отдельный класс
-        Dictionary<string, Type> eventTypes = new Dictionary<string, Type>();
-        List<string> eventNames = new List<string>();
+        
         private void DrawExtensionContainer()
         {
-            Assembly assembly = Assembly.Load("Assembly-CSharp-firstpass");
+            DropdownField dropdownField = AddEventDropdownField();
 
-            Debug.Log(assembly.FullName);
+            AddCreateEventButton(dropdownField);
+        }
 
-            var events = from m in assembly.GetTypes()
-                         from a in m.GetCustomAttributes(typeof(NodeEventAttribute), false)
-                         select m;
-            
-
-            foreach (var eventType in events)
-            {
-                NodeEventAttribute attribute = (NodeEventAttribute)eventType.GetCustomAttribute(typeof(NodeEventAttribute));
-                eventTypes.Add(attribute.Name, eventType);
-                eventNames.Add(attribute.Name);
-            }
-
-            DropdownField dropdownField = new DropdownField(eventNames, 1);
-            extensionContainer.Add(dropdownField);
+        private void AddCreateEventButton(DropdownField dropdownField)
+        {
             Button addbutton = MyElementUtility.AddButton("AddEvent");
-            addbutton.clicked += () => CreateEvent(dropdownField.value);
+            addbutton.clicked += () => CreateEventByType(dropdownField.value);
 
             extensionContainer.Add(addbutton);
         }
 
-        private void CreateEvent(string eventName)
+        private DropdownField AddEventDropdownField()
         {
-            if (eventTypes.TryGetValue(eventName, out var type))
+            List<string> names = EventFinder.EventNames;
+
+            DropdownField dropdownField = new DropdownField(names, 1);
+            extensionContainer.Add(dropdownField);
+            return dropdownField;
+        }
+
+        private void CreateEventByType(string eventName)
+        {
+            if (EventFinder.TryGetEventType(eventName, out var type))
             {
                 Debug.Log(type.FullName);
                 IEvent @event = (IEvent)Activator.CreateInstance(type);
-
-                Events.Add(@event);
-                DrawEventContainer(@event);
+                
+                CreateEvent(@event);
             }
+        }
+
+        private void CreateEvent(IEvent @event)
+        {
+            Events.Add(@event);
+            DrawEventContainer(@event);
         }
 
         private void RemoveEvent(EventContainer container)

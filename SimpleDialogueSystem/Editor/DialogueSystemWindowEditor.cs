@@ -31,32 +31,7 @@ namespace SimpleDialogueSystem.Editors
 
             rootVisualElement.Add(view);
             rootVisualElement.Add(toolbar);
-            AddSidePanel();
             AddStyles();
-        }
-
-        //Лист со всеми диалогами можно вынести в отдельный класс
-        List<DialogueStaticData> dialogues = new();
-        private void AddSidePanel()
-        {
-            VisualElement sidePanel = new VisualElement();
-
-            ListView dialogueListView = AddDialogueListView();
-            sidePanel.Add(dialogueListView);
-            sidePanel.AddToClassList("ds-node__side-pane-container");
-            sidePanel.style.width = 200f;
-            sidePanel.style.height = 100;
-
-            rootVisualElement.Add(sidePanel);
-        }
-
-        
-
-        private ListView AddDialogueListView()
-        {
-            dialogues = Resources.LoadAll<DialogueStaticData>("StaticDatas").ToList<DialogueStaticData>();
-
-            return new ListView(dialogues);
         }
 
         private void AddStyles()
