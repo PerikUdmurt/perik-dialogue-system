@@ -31,4 +31,8 @@ namespace SimpleDialogueSystem.Model
         public void PlayNextNode()
             => _nodePlayer.PlayNextNode();
     }
+
+    public class BaseDialogueNode
+    {
+    }
 }

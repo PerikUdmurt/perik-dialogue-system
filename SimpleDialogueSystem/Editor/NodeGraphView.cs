@@ -17,11 +17,19 @@ namespace SimpleDialogueSystem.Editors
             AddStyles();
         }
 
-        private EditorNode CreateNode(Vector2 position)
-            => _factory.CreateEditorNode<EditorNode>(position);
+        public EditorNode CreateNode(Vector2 position)
+        { 
+            EditorNode node = _factory.CreateEditorNode<EditorNode>(position);
+            AddElement(node);
+            return node;
+        }
 
-        private NoteNode CreateNoteNode(Vector2 position)
-            => _factory.CreateEditorNode<NoteNode>(position);
+        public NoteNode CreateNoteNode(Vector2 position)
+        {
+            NoteNode node = _factory.CreateEditorNode<NoteNode>(position);
+            AddElement(node);
+            return node;
+        }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
@@ -55,13 +63,12 @@ namespace SimpleDialogueSystem.Editors
             this.AddManipulator(CreateNodeContextualMenu2());
         }
 
-        //Повторяющийся код. Перепиши.
         private IManipulator CreateNodeContextualMenu()
         {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction(
                     actionName: "Add Node", 
-                    actionEvent => AddElement(CreateNode(actionEvent.eventInfo.localMousePosition)))   
+                    actionEvent => CreateNode(actionEvent.eventInfo.localMousePosition))   
                 );
             return contextualMenuManipulator;
         }
@@ -71,7 +78,7 @@ namespace SimpleDialogueSystem.Editors
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction(
                     actionName: "Add NoteNode",
-                    actionEvent => AddElement(CreateNoteNode(actionEvent.eventInfo.localMousePosition)))
+                    actionEvent => CreateNoteNode(actionEvent.eventInfo.localMousePosition))
                 );
             return contextualMenuManipulator;
         }

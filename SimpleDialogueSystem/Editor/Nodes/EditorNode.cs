@@ -1,6 +1,4 @@
-using CodiceApp.EventTracking.Plastic;
 using SimpleDialogueSystem.Editors.Nodes;
-using SimpleDialogueSystem.Events;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using System;
 using System.Collections.Generic;
@@ -12,6 +10,13 @@ namespace SimpleDialogueSystem.Editors
 {
     public class EditorNode : BaseNode
     {
+        private Port _inputPort;
+        private Port _outputPort;
+
+        public Port InputPort { get => _inputPort; }
+        public Port OutputPort { get => _outputPort; }
+
+        public string ID {  get; set; }
         public override string NodeName { get; set; }
         public List<IEvent> Events { get; set; }
 
@@ -22,14 +27,18 @@ namespace SimpleDialogueSystem.Editors
 
         public void Initialize(Vector2 position, List<IEvent> events)
         {
+            ID = Guid.NewGuid().ToString();
             NodeName = "Dialogue";
             Events = new();
+
+            _outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
+            _inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
 
             foreach (IEvent @event in events)
             {
                 CreateEvent(@event);
             }
-
+          
             SetPosition(new Rect(position, Vector2.zero));
 
             SetStyles();
@@ -52,24 +61,18 @@ namespace SimpleDialogueSystem.Editors
 
         private void DrawInputContainer()
         {
-            Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
+            _inputPort.portName = "Input";
 
-            inputPort.portName = "Input";
-
-            inputContainer.Add(inputPort);
+            inputContainer.Add(_inputPort);
         }
 
         private void DrawOutputContainer()
         {
-            Port outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
+            _outputPort.portName = "Output";
 
-            outputPort.portName = "Output";
-
-            outputContainer.Add(outputPort);
-            outputContainer.Add(outputPort);
+            outputContainer.Add(_outputPort);
+            outputContainer.Add(_outputPort);
         }
-
-        //Поиск ивентов через рефлексию в отдельный класс
         
         private void DrawExtensionContainer()
         {

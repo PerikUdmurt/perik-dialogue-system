@@ -1,3 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="Panel" style="flex-grow: 1; background-image: none; background-color: rgb(130, 130, 130); text-overflow: clip; -unity-slice-left: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; width: auto; transform-origin: center; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;" />
-</ui:UXML>

@@ -1,17 +1,14 @@
 using SimpleDialogueSystem.StaticDatas;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace SimpleDialogueSystem.Editors
 {
     public class DialogueSystemWindowEditor : EditorWindow
     {
+        private static DialogueStaticData _staticData;
+        
         [MenuItem("Window/SimpleDialogueSystem/DialogueGraphs")]
         public static void Open()
         {
@@ -22,16 +19,24 @@ namespace SimpleDialogueSystem.Editors
         public static void Open(DialogueStaticData staticData)
         {
             Open();
+            _staticData = staticData;
         }
 
         private void CreateGUI()
         {
-            NodeGraphView view = MyElementUtility.AddGraphView();
+           NodeGraphView graphView = MyElementUtility.AddGraphView();
             Toolbar toolbar = MyElementUtility.AddToolbar();
+            SaveGraphUtility.Init(graphView);
 
-            rootVisualElement.Add(view);
+            rootVisualElement.Add(graphView);
             rootVisualElement.Add(toolbar);
             AddStyles();
+            LoadGraphUtility.Load(_staticData, graphView);
+        }
+
+        private void OnDisable()
+        {
+            SaveGraphUtility.Save();
         }
 
         private void AddStyles()

@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe565d8ac8c71543a64abf32243dac1, type: 3}
   m_Name: New Dialogue Static Data
   m_EditorClassIdentifier: 
-  ints: 010000000200000003000000040000000500000006000000
-  position: {x: 0, y: 0, z: 0}
-  str: dfdfdf
+  <DialogueName>k__BackingField: 
+  <NodeDatas>k__BackingField: []
