@@ -1,4 +1,5 @@
-﻿using SimpleDialogueSystem.StaticDatas;
+﻿using SimpleDialogueSystem.Editors.Nodes;
+using SimpleDialogueSystem.StaticDatas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace SimpleDialogueSystem.Editors
             ConnectDialogueNodes();
             DialogueStaticData dialogueData = CreateAsset<DialogueStaticData>("Assets", "NewDialogue");
 
-            dialogueData.Init("New", _nodePairs.Values.ToList());
+            dialogueData.Init("New", null,_nodePairs.Values.ToList());
         }
 
         private static void ConnectDialogueNodes()
@@ -39,7 +40,7 @@ namespace SimpleDialogueSystem.Editors
                 {
                     if (_nodePairs.TryGetValue((EditorNode)edge.input.node, out DialogueNode outputDNode))
                     {
-                        inputDNode.NextNodes.Add(outputDNode);
+                        inputDNode.NextNodesID.Add(outputDNode.ID);
                     }
                 }
             }
@@ -68,6 +69,7 @@ namespace SimpleDialogueSystem.Editors
                 {
                     DialogueNode dialogueNode = node.ToDialogueNode();
                     _nodePairs.Add(node, dialogueNode);
+
                     return;
                 }
 
@@ -78,59 +80,5 @@ namespace SimpleDialogueSystem.Editors
                 }
             });
         }
-    }
-
-    public static class LoadGraphUtility
-    {
-        private static NodeGraphView _graphView;
-        private static DialogueStaticData _dialogueStaticData;
-        private static Dictionary<DialogueNode, EditorNode> _createdNodes;
-
-        public static void Load(DialogueStaticData dialogueStaticData, NodeGraphView nodeGraphView)
-        {
-            _createdNodes = new Dictionary<DialogueNode, EditorNode>();
-            _dialogueStaticData = dialogueStaticData;
-            _graphView = nodeGraphView;
-
-            CreateEditorNodes();
-            RestoreConnections();
-        }
-
-        private static void RestoreConnections()
-        {
-            foreach (var node in _createdNodes.Keys)
-            {
-                foreach (var nextNode in node.NextNodes)
-                {
-                    Edge edge = _createdNodes[node].OutputPort.ConnectTo(_createdNodes[nextNode].InputPort);
-                    _graphView.AddElement(edge);
-                }
-            }
-        }
-
-        private static void CreateEditorNodes()
-        {
-            if (_dialogueStaticData.NodeDatas == null)
-                return;
-
-            foreach (var node in _dialogueStaticData.NodeDatas)
-            {
-                EditorNode editorNode = _graphView.CreateNode(node.Position);
-                _createdNodes.Add(node, editorNode);
-            }
-        }
-
-
-    }
-
-    public static class NodeExtensions
-    {
-        public static DialogueNode ToDialogueNode(this EditorNode editorNode)
-            => new DialogueNode()
-            {
-                Name = editorNode.NodeName,
-                Position = editorNode.GetPosition().position,
-                NextNodes = new()
-            };
     }
 }

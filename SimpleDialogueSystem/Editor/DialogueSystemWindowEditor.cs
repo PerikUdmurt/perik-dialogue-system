@@ -19,7 +19,7 @@ namespace SimpleDialogueSystem.Editors
         public static void Open(DialogueStaticData staticData)
         {
             Open();
-            _staticData = staticData;
+            _staticData = staticData; 
         }
 
         private void CreateGUI()

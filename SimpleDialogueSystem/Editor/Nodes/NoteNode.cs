@@ -1,5 +1,4 @@
-﻿using SimpleDialogueSystem.Infrastructure.EventBus;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace SimpleDialogueSystem.Editors.Nodes
@@ -9,10 +8,10 @@ namespace SimpleDialogueSystem.Editors.Nodes
         public override string NodeName { get; set; }
         public string NoteText { get; set; }
 
-        public override void Initialize(Vector2 position)
+        public void Initialize(Vector2 position, string text = "")
         {
             NodeName = "noname";
-            NoteText = "Введите текст заметки / Write text to the note";
+            NoteText = text;
 
             SetPosition(new Rect(position, Vector2.zero));
 

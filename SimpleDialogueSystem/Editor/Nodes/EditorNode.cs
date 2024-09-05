@@ -6,7 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace SimpleDialogueSystem.Editors
+namespace SimpleDialogueSystem.Editors.Nodes
 {
     public class EditorNode : BaseNode
     {
@@ -19,11 +19,6 @@ namespace SimpleDialogueSystem.Editors
         public string ID {  get; set; }
         public override string NodeName { get; set; }
         public List<IEvent> Events { get; set; }
-
-        public override void Initialize(Vector2 position)
-        {
-            Initialize(position, new());
-        }
 
         public void Initialize(Vector2 position, List<IEvent> events)
         {
@@ -38,7 +33,7 @@ namespace SimpleDialogueSystem.Editors
             {
                 CreateEvent(@event);
             }
-          
+
             SetPosition(new Rect(position, Vector2.zero));
 
             SetStyles();

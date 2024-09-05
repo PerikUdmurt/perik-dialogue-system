@@ -1,4 +1,5 @@
 using SimpleDialogueSystem.Editors.Nodes;
+using SimpleDialogueSystem.Infrastructure.EventBus;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -17,16 +18,16 @@ namespace SimpleDialogueSystem.Editors
             AddStyles();
         }
 
-        public EditorNode CreateNode(Vector2 position)
+        public EditorNode CreateNode(Vector2 position, List<IEvent> events)
         { 
-            EditorNode node = _factory.CreateEditorNode<EditorNode>(position);
+            EditorNode node = _factory.CreateEditorNode(position, events);
             AddElement(node);
             return node;
         }
 
-        public NoteNode CreateNoteNode(Vector2 position)
+        public NoteNode CreateNoteNode(Vector2 position, string text = "")
         {
-            NoteNode node = _factory.CreateEditorNode<NoteNode>(position);
+            NoteNode node = _factory.CreateEditorNode(position, text);
             AddElement(node);
             return node;
         }
@@ -68,7 +69,7 @@ namespace SimpleDialogueSystem.Editors
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction(
                     actionName: "Add Node", 
-                    actionEvent => CreateNode(actionEvent.eventInfo.localMousePosition))   
+                    actionEvent => CreateNode(actionEvent.eventInfo.localMousePosition, new()))   
                 );
             return contextualMenuManipulator;
         }
