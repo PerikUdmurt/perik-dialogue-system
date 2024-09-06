@@ -12,25 +12,18 @@ namespace SimpleDialogueSystem.Editors
         EditorNodeFactory _factory;
         public NodeGraphView() 
         {
-            _factory = new EditorNodeFactory();
+            _factory = new EditorNodeFactory(this);
             AddManipulators();
             AddGridBackground();
             AddStyles();
         }
 
-        public EditorNode CreateNode(Vector2 position, List<IEvent> events)
-        { 
-            EditorNode node = _factory.CreateEditorNode(position, events);
-            AddElement(node);
-            return node;
-        }
+        public EditorNode CreateNode(Vector2 position, List<IEvent> events, string id = null)
+            => _factory.CreateEditorNode(position, events, id);
 
         public NoteNode CreateNoteNode(Vector2 position, string text = "")
-        {
-            NoteNode node = _factory.CreateEditorNode(position, text);
-            AddElement(node);
-            return node;
-        }
+            => _factory.CreateEditorNode(position, text);
+        
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {

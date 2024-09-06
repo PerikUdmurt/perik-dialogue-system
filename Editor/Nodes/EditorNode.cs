@@ -1,4 +1,3 @@
-using SimpleDialogueSystem.Editors.Nodes;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ namespace SimpleDialogueSystem.Editors.Nodes
     {
         private Port _inputPort;
         private Port _outputPort;
+        private VisualElement _eventsContainer;
 
         public Port InputPort { get => _inputPort; }
         public Port OutputPort { get => _outputPort; }
@@ -20,12 +20,16 @@ namespace SimpleDialogueSystem.Editors.Nodes
         public override string NodeName { get; set; }
         public List<IEvent> Events { get; set; }
 
-        public void Initialize(Vector2 position, List<IEvent> events)
+        public void Initialize(Vector2 position, List<IEvent> events, string id = null)
         {
-            ID = Guid.NewGuid().ToString();
+            if (id == null)
+                ID = Guid.NewGuid().ToString();
+            else ID = id;
+
             NodeName = "Dialogue";
             Events = new();
 
+            _eventsContainer = new VisualElement();
             _outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
             _inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
 
@@ -72,8 +76,8 @@ namespace SimpleDialogueSystem.Editors.Nodes
         private void DrawExtensionContainer()
         {
             DropdownField dropdownField = AddEventDropdownField();
-
             AddCreateEventButton(dropdownField);
+            extensionContainer.Add(_eventsContainer);
         }
 
         private void AddCreateEventButton(DropdownField dropdownField)
@@ -110,18 +114,19 @@ namespace SimpleDialogueSystem.Editors.Nodes
             DrawEventContainer(@event);
         }
 
-        private void RemoveEvent(EventContainer container)
+        private void RemoveEventContainer(EventContainer container)
         {
-            extensionContainer.Remove(container);
+            _eventsContainer.Remove(container);
+            Events.Remove(container.Event);
         }
 
         private void DrawEventContainer(IEvent @event)
         {
-            EventContainer eventContainer = new EventContainer(@event);
-            extensionContainer.Add(eventContainer);
+            EventContainer eventContainer = new EventContainer(ref @event);
+            _eventsContainer.Add(eventContainer);
 
             Button removeButton = MyElementUtility.AddButton("Remove");
-            removeButton.clicked += () => RemoveEvent(eventContainer);
+            removeButton.clicked += () => RemoveEventContainer(eventContainer);
             eventContainer.Add(removeButton);
             RefreshExpandedState();
         }

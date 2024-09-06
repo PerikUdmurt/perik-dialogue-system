@@ -7,11 +7,18 @@ namespace SimpleDialogueSystem.Editors
 {
     public class EditorNodeFactory
     {
-        public EditorNode CreateEditorNode(Vector2 position, List<IEvent> events)
+        private readonly NodeGraphView _graphView;
+        public EditorNodeFactory(NodeGraphView graphView) 
+        { 
+            _graphView = graphView;
+        }
+
+        public EditorNode CreateEditorNode(Vector2 position, List<IEvent> events, string id = null)
         {
             EditorNode node = new();
-            node.Initialize(position, events);
+            node.Initialize(position, events, id);
             node.Draw();
+            _graphView.AddElement(node);
 
             return node;
         }
@@ -21,6 +28,7 @@ namespace SimpleDialogueSystem.Editors
             NoteNode node = new();
             node.Initialize(position, text);
             node.Draw();
+            _graphView.AddElement(node);
 
             return node;
         }

@@ -1,4 +1,5 @@
 ﻿using SimpleDialogueSystem.Editors.Nodes;
+using SimpleDialogueSystem.Infrastructure.EventBus;
 using SimpleDialogueSystem.StaticDatas;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -9,38 +10,56 @@ namespace SimpleDialogueSystem.Editors
     {
         private static NodeGraphView _graphView;
         private static DialogueStaticData _dialogueStaticData;
-        private static Dictionary<DialogueNode, EditorNode> _createdNodes;
+        private static Dictionary<DialogueNodeStaticData, EditorNode> _pair;
+        private static Dictionary<string, DialogueNodeStaticData> _dialogueNodes;
 
         public static void Load(DialogueStaticData dialogueStaticData, NodeGraphView nodeGraphView)
         {
-            _createdNodes = new Dictionary<DialogueNode, EditorNode>();
+            _pair = new Dictionary<DialogueNodeStaticData, EditorNode>();
+            _dialogueNodes = new();
             _dialogueStaticData = dialogueStaticData;
             _graphView = nodeGraphView;
 
             CreateEditorNodes();
-            //RestoreConnections();
+            RestoreConnections();
         }
 
-        /*
+        
         private static void RestoreConnections()
         {
-            foreach (var node in _createdNodes.Keys)
-            {
-                foreach (var nextNode in node.NextNodesID)
+            foreach (var node in _pair.Keys)
+                foreach (var nextNodeID in node.NextNodesID)
                 {
-                    Edge edge = _createdNodes[node].OutputPort.ConnectTo(_createdNodes[nextNode].InputPort);
+                    EditorNode nextNode = FindEditorNode(nextNodeID);
+                    Edge edge = _pair[node].OutputPort.ConnectTo(nextNode.InputPort);
                     _graphView.AddElement(edge);
+                }
+        }
+        
+        private static void CreateEditorNodes()
+        {
+            if (_dialogueStaticData != null)
+            {
+                foreach (var node in _dialogueStaticData.NodeDatas)
+                {
+                    List<IEvent> events = node.EventDatas.ToEventList();
+
+                    EditorNode editorNode = _graphView.CreateNode(node.Position.ToVector2(), events, node.ID);
+                    _pair.Add(node, editorNode);
+                    _dialogueNodes.Add(node.ID, node);
                 }
             }
         }
-        */
-        private static void CreateEditorNodes()
+
+        private static EditorNode FindEditorNode(string id)
         {
-            foreach (var node in _dialogueStaticData.NodeDatas)
+            if (_dialogueNodes.TryGetValue(id, out var dialogueNode))
             {
-                EditorNode editorNode = _graphView.CreateNode(node.Position, node.Events);
-                _createdNodes.Add(node, editorNode);
+                if (_pair.TryGetValue(dialogueNode, out var editorNode))
+                    return editorNode;
             }
+
+            return null;
         }
     }
 }

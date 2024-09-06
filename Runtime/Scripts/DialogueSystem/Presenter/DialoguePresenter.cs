@@ -30,7 +30,7 @@ namespace SimpleDialogueSystem
 
         public void OnEvent(OnBeginPhraseEventData @event)
         {
-            _dialogueWindow.ShowBlock(@event.currentBlockData);
+            _dialogueWindow.ShowBlock(new());
         }
 
         public void OnEvent(OnEndPhraseEventData @event)

@@ -1,5 +1,3 @@
-using SimpleDialogueSystem.Infrastructure.EventBus;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,27 +6,17 @@ namespace SimpleDialogueSystem.StaticDatas
     [CreateAssetMenu(fileName = "New Dialogue Static Data", menuName = "Simple Dialogue System/Dialogue Static Data")]
     public class DialogueStaticData : ScriptableObject
     {
-        public string DialogueName;
+        [field: SerializeField] public string DialogueName { get; set; }
 
-        public DialogueNode StartNode;
+        [field: SerializeField] public string StartNodeID { get; set; }
 
-        public List<DialogueNode> NodeDatas;
+        [field: SerializeField] public List<DialogueNodeStaticData> NodeDatas { get; set; }
 
-        public void Init(string dialogueName, DialogueNode startNode, List<DialogueNode> nodeDatas)
+        public void Init(string dialogueName, string startNode, List<DialogueNodeStaticData> nodeDatas)
         {
             DialogueName = dialogueName;
-            StartNode = startNode;
+            StartNodeID = startNode;
             NodeDatas = nodeDatas;
         }
-    }
-
-    [Serializable]
-    public class DialogueNode
-    {
-        public string ID;
-        public Vector2 Position;
-        public List<string> NextNodesID;
-        [SerializeReference]
-        public List<IEvent> Events;
     }
 }

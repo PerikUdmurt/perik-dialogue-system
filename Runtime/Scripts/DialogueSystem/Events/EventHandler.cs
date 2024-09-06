@@ -13,9 +13,11 @@ namespace SimpleDialogueSystem.Events
     [NodeEvent("Начало фразы", 250,230,220,1), Serializable]
     public struct OnBeginPhraseEventData: IEvent
     {
-        public int a { get; set; }
-        public BlockData currentBlockData { get; set; }
-        public List<int> intlist { get; set; }
+        public int a;
+        public List<int> intlist;
+        public string str;
+        public float f;
+        public OnBeginDialogueEventData ghghfhfl;
     }
 
 
@@ -26,7 +28,7 @@ namespace SimpleDialogueSystem.Events
     [NodeEvent("Начало диалога", 245, 40, 145, 0.8f), Serializable]
     public struct OnBeginDialogueEventData: IEvent
     {
-        
+        public my my;
     }
 
     public struct OnEndDialogueEventData : IEvent
@@ -37,5 +39,11 @@ namespace SimpleDialogueSystem.Events
     public struct OnDisplayChangedEventData: IEvent
     {
 
+    }
+
+    public enum my
+    {
+        None = 0,
+        ghghgj = 1,
     }
 }

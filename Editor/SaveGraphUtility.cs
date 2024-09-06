@@ -1,6 +1,5 @@
 ﻿using SimpleDialogueSystem.Editors.Nodes;
 using SimpleDialogueSystem.StaticDatas;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -14,11 +13,11 @@ namespace SimpleDialogueSystem.Editors
         private static NodeGraphView _graphView;
 
         private static List<Edge> _edges;
-        private static Dictionary<EditorNode, DialogueNode> _nodePairs;
+        private static Dictionary<EditorNode, DialogueNodeStaticData> _nodePairs;
 
         public static void Init(NodeGraphView graphView)
         {
-            _nodePairs = new Dictionary<EditorNode, DialogueNode>();
+            _nodePairs = new Dictionary<EditorNode, DialogueNodeStaticData>();
             _edges = new List<Edge>();
             _graphView = graphView;
         }
@@ -29,16 +28,16 @@ namespace SimpleDialogueSystem.Editors
             ConnectDialogueNodes();
             DialogueStaticData dialogueData = CreateAsset<DialogueStaticData>("Assets", "NewDialogue");
 
-            dialogueData.Init("New", null,_nodePairs.Values.ToList());
+            dialogueData.Init("New", "FixIt",_nodePairs.Values.ToList());
         }
 
         private static void ConnectDialogueNodes()
         {
             foreach (Edge edge in _edges)
             {
-                if (_nodePairs.TryGetValue((EditorNode)edge.output.node, out DialogueNode inputDNode))
+                if (_nodePairs.TryGetValue((EditorNode)edge.output.node, out DialogueNodeStaticData inputDNode))
                 {
-                    if (_nodePairs.TryGetValue((EditorNode)edge.input.node, out DialogueNode outputDNode))
+                    if (_nodePairs.TryGetValue((EditorNode)edge.input.node, out DialogueNodeStaticData outputDNode))
                     {
                         inputDNode.NextNodesID.Add(outputDNode.ID);
                     }
@@ -67,7 +66,7 @@ namespace SimpleDialogueSystem.Editors
             {
                 if (graphElement is EditorNode node)
                 {
-                    DialogueNode dialogueNode = node.ToDialogueNode();
+                    DialogueNodeStaticData dialogueNode = node.ToDialogueNode();
                     _nodePairs.Add(node, dialogueNode);
 
                     return;
