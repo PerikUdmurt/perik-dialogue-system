@@ -1,7 +1,9 @@
 ﻿using SimpleDialogueSystem.Editors.Nodes;
+using SimpleDialogueSystem.Events;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using SimpleDialogueSystem.StaticDatas;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SimpleDialogueSystem.Editors
 {
@@ -28,6 +30,17 @@ namespace SimpleDialogueSystem.Editors
             }
 
             return eventDatas;
+        }
+
+        public static NoteData ToNoteData(this NoteNode note)
+        {
+            NoteEvent @event = (NoteEvent)note.Events.First();
+            return new NoteData()
+            {
+                ID = note.ID,
+                Text = @event.text,
+                Position = note.GetPosition().position
+            };
         }
     }
 }

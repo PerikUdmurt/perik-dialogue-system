@@ -4,7 +4,7 @@ namespace SimpleDialogueSystem.Editors.Nodes
 {
     public abstract class BaseNode: Node
     {
-        public abstract string NodeName { get; set; }
+        protected virtual string nodeName { get => "Node"; }
         public abstract void Draw();
     }
 }

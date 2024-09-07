@@ -12,11 +12,13 @@ namespace SimpleDialogueSystem.Editors
     {
         private static NodeGraphView _graphView;
 
+        private static List<NoteData> _notes;
         private static List<Edge> _edges;
         private static Dictionary<EditorNode, DialogueNodeStaticData> _nodePairs;
 
         public static void Init(NodeGraphView graphView)
         {
+            _notes = new List<NoteData>();
             _nodePairs = new Dictionary<EditorNode, DialogueNodeStaticData>();
             _edges = new List<Edge>();
             _graphView = graphView;
@@ -28,7 +30,7 @@ namespace SimpleDialogueSystem.Editors
             ConnectDialogueNodes();
             DialogueStaticData dialogueData = CreateAsset<DialogueStaticData>("Assets", "NewDialogue");
 
-            dialogueData.Init("New", "FixIt",_nodePairs.Values.ToList());
+            dialogueData.Init("New", "FixIt",_nodePairs.Values.ToList(), _notes);
         }
 
         private static void ConnectDialogueNodes()
@@ -69,6 +71,14 @@ namespace SimpleDialogueSystem.Editors
                     DialogueNodeStaticData dialogueNode = node.ToDialogueNode();
                     _nodePairs.Add(node, dialogueNode);
 
+                    return;
+                }
+
+                if (graphElement is NoteNode note)
+                {
+                    NoteData noteData = note.ToNoteData();
+                    _notes.Add(noteData);
+                    Debug.Log("sss");
                     return;
                 }
 

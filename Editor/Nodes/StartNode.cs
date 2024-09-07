@@ -5,21 +5,18 @@ using UnityEngine;
 
 namespace SimpleDialogueSystem.Editors.Nodes
 {
-    public class EditorNode : BaseEditorNode
-    { 
+    public sealed class StartNode: BaseEditorNode
+    {
         public override void Initialize(Vector2 position, List<IEvent> events = null, string id = null)
         {
             base.Initialize(position, events, id);
-            CreatePort("Input", Direction.Input, Port.Capacity.Multi);
-            CreatePort("Output", Direction.Output, Port.Capacity.Multi);
+            CreatePort("Start", Direction.Output, Port.Capacity.Single);
         }
 
         public override void Draw()
         {
             DrawTitleContainer();
-            DrawInputContainer();
             DrawOutputContainer();
-            DrawExtensionContainer();
             RefreshExpandedState();
         }
     }

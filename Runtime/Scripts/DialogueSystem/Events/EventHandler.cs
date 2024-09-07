@@ -10,7 +10,7 @@ namespace SimpleDialogueSystem.Events
     public interface OnEndDialogueHandler : IEventHandler<OnEndDialogueEventData> { }
     public interface OnDisplayChangedHandler : IEventHandler<OnDisplayChangedEventData> { }
 
-    [NodeEvent("Начало фразы", 250,230,220,1), Serializable]
+    [NodeEvent("Начало фразы"), Serializable]
     public struct OnBeginPhraseEventData: IEvent
     {
         public int a;
@@ -25,7 +25,7 @@ namespace SimpleDialogueSystem.Events
     {
     }
 
-    [NodeEvent("Начало диалога", 245, 40, 145, 0.8f), Serializable]
+    [NodeEvent("Начало диалога"), Serializable]
     public struct OnBeginDialogueEventData: IEvent
     {
         public my my;

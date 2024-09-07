@@ -1,4 +1,5 @@
 ﻿using SimpleDialogueSystem.Editors.Nodes;
+using SimpleDialogueSystem.Events;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using SimpleDialogueSystem.StaticDatas;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace SimpleDialogueSystem.Editors
                 foreach (var nextNodeID in node.NextNodesID)
                 {
                     EditorNode nextNode = FindEditorNode(nextNodeID);
-                    Edge edge = _pair[node].OutputPort.ConnectTo(nextNode.InputPort);
+                    Edge edge = _pair[node].OutputPorts[0].ConnectTo(nextNode.InputPorts[0]);
                     _graphView.AddElement(edge);
                 }
         }
@@ -47,6 +48,17 @@ namespace SimpleDialogueSystem.Editors
                     EditorNode editorNode = _graphView.CreateNode(node.Position.ToVector2(), events, node.ID);
                     _pair.Add(node, editorNode);
                     _dialogueNodes.Add(node.ID, node);
+                }
+            }
+        }
+
+        private static void CreateNoteNodes()
+        {
+            if (_dialogueStaticData != null)
+            {
+                foreach (var node in _dialogueStaticData.Notes)
+                {
+                    _graphView.CreateNoteNode(node.Position, node.Text, node.ID);
                 }
             }
         }

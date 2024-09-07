@@ -1,4 +1,5 @@
 using SimpleDialogueSystem.Editors.Nodes;
+using SimpleDialogueSystem.Events;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -10,7 +11,7 @@ namespace SimpleDialogueSystem.Editors
     public class NodeGraphView : GraphView
     {
         EditorNodeFactory _factory;
-        public NodeGraphView() 
+        public NodeGraphView()
         {
             _factory = new EditorNodeFactory(this);
             AddManipulators();
@@ -19,11 +20,13 @@ namespace SimpleDialogueSystem.Editors
         }
 
         public EditorNode CreateNode(Vector2 position, List<IEvent> events, string id = null)
-            => _factory.CreateEditorNode(position, events, id);
+            => _factory.CreateEditorNode<EditorNode>(position, events, id);
 
-        public NoteNode CreateNoteNode(Vector2 position, string text = "")
-            => _factory.CreateEditorNode(position, text);
-        
+        public NoteNode CreateNoteNode(Vector2 position, string text = "¬ведите текст заметки", string id = null)
+        {
+            List<IEvent> events = new List<IEvent>() { new NoteEvent(text)};
+            return _factory.CreateEditorNode<NoteNode>(position, events, id); 
+        }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {

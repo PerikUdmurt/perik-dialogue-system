@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public static class EditorWindowExtension
 {
-    public static void DrawProperties(this VisualElement rootVisualElement, ref IEvent obj)
+    public static void DrawProperties(this VisualElement rootVisualElement, ref object obj)
     {
         if (obj == null) return;
 
@@ -17,7 +17,7 @@ public static class EditorWindowExtension
 
         foreach (FieldInfo field in fields)
         {
-            /*
+            
             if (field.FieldType.IsStruct())
             {
                 Foldout foldout = new Foldout()
@@ -30,7 +30,7 @@ public static class EditorWindowExtension
                 foldout.DrawProperties(ref sda);
                 rootVisualElement.Add(foldout);
             }
-            */
+            
 
             if (field.FieldType == typeof(int))
             {

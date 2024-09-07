@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace SimpleDialogueSystem
 {
@@ -6,11 +7,9 @@ namespace SimpleDialogueSystem
     public class NodeEventAttribute : Attribute
     {
         public string Name {  get; }
-        public (float, float, float, float) Rgba {  get; }
-        public NodeEventAttribute(string name, float R, float G, float B, float A)
+        public NodeEventAttribute(string name)
         {
             Name = name;
-            Rgba = (R, G, B, A);
         }
     }
 }
