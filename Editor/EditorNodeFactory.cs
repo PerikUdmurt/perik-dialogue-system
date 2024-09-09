@@ -13,7 +13,7 @@ namespace SimpleDialogueSystem.Editors
             _graphView = graphView;
         }
 
-        public T CreateEditorNode<T>(Vector2 position, List<IEvent> events, string id = null) where T : BaseEditorNode, new()
+        public T CreateEditorNode<T>(Vector2 position, List<IEvent> events = null, string id = null) where T : BaseEditorNode, new()
         {
             T node = new();
             node.Initialize(position, events, id);
@@ -21,6 +21,15 @@ namespace SimpleDialogueSystem.Editors
             _graphView.AddElement(node);
 
             return node;
+        }
+
+        public NoteNode CreateNote(Vector2 position, string text)
+        {
+            NoteNode note = new NoteNode();
+            note.Initialize(position, text);
+            _graphView.AddElement(note);
+
+            return note;
         }
     }
 }

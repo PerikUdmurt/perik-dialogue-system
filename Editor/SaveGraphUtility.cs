@@ -10,14 +10,17 @@ namespace SimpleDialogueSystem.Editors
 {
     public static class SaveGraphUtility
     {
+        private static DialogueStaticData _staticData;
         private static NodeGraphView _graphView;
 
+        private static StartNode _startNode;
         private static List<NoteData> _notes;
         private static List<Edge> _edges;
         private static Dictionary<EditorNode, DialogueNodeStaticData> _nodePairs;
 
-        public static void Init(NodeGraphView graphView)
+        public static void Init(DialogueStaticData dialogueStaticData, NodeGraphView graphView)
         {
+            _staticData = dialogueStaticData;
             _notes = new List<NoteData>();
             _nodePairs = new Dictionary<EditorNode, DialogueNodeStaticData>();
             _edges = new List<Edge>();
@@ -28,20 +31,48 @@ namespace SimpleDialogueSystem.Editors
         {
             GetElementsFromGraphView();
             ConnectDialogueNodes();
-            DialogueStaticData dialogueData = CreateAsset<DialogueStaticData>("Assets", "NewDialogue");
+            CreateData();
+        }
 
-            dialogueData.Init("New", "FixIt",_nodePairs.Values.ToList(), _notes);
+        private static void CreateData()
+        {
+            string startNodeID = DetectStartNodeID();
+            Vector2Data startVector = _startNode.GetPosition().position.ToVector2Data();
+            List<DialogueNodeStaticData> nodes = _nodePairs.Values.ToList();
+
+            _staticData.Init(startNodeID, startVector, nodes, _notes);
+        }
+
+        private static string DetectStartNodeID()
+        {
+            Port port = _startNode.OutputPorts.FirstOrDefault();
+            
+            if (port == null)
+                return "";
+
+            foreach (Edge edge in _edges)
+            {
+                if (edge.output == port)
+                {
+                    return ((EditorNode)edge.input.node).ID;
+                }
+            }
+
+            return "";
         }
 
         private static void ConnectDialogueNodes()
         {
             foreach (Edge edge in _edges)
             {
-                if (_nodePairs.TryGetValue((EditorNode)edge.output.node, out DialogueNodeStaticData inputDNode))
+                if (edge.output.node is EditorNode && edge.input.node is EditorNode)
                 {
-                    if (_nodePairs.TryGetValue((EditorNode)edge.input.node, out DialogueNodeStaticData outputDNode))
+                    if (_nodePairs.TryGetValue((EditorNode)edge.output.node, out DialogueNodeStaticData inputDNode))
                     {
-                        inputDNode.NextNodesID.Add(outputDNode.ID);
+                        if (_nodePairs.TryGetValue((EditorNode)edge.input.node, out DialogueNodeStaticData outputDNode))
+                        {
+                            inputDNode.NextNodesID.Add(outputDNode.ID);
+                        }
                     }
                 }
             }
@@ -70,7 +101,6 @@ namespace SimpleDialogueSystem.Editors
                 {
                     DialogueNodeStaticData dialogueNode = node.ToDialogueNode();
                     _nodePairs.Add(node, dialogueNode);
-
                     return;
                 }
 
@@ -78,7 +108,12 @@ namespace SimpleDialogueSystem.Editors
                 {
                     NoteData noteData = note.ToNoteData();
                     _notes.Add(noteData);
-                    Debug.Log("sss");
+                    return;
+                }
+
+                if (graphElement is StartNode startNode)
+                {
+                    _startNode = startNode;
                     return;
                 }
 

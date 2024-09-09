@@ -22,7 +22,7 @@ public class DialogueStaticDataInspector : Editor
             DialogueSystemWindowEditor.Open(_data);
         }
 
-        EditorGUILayout.LabelField("DialogueName", _data.DialogueName);
-        EditorGUILayout.LabelField("Nodes", _data.NodeDatas.Count.ToString());
+        //EditorGUILayout.LabelField("DialogueName", _data.DialogueName);
+        //EditorGUILayout.LabelField("Nodes", _data.NodeDatas.Count.ToString());
     }
 }

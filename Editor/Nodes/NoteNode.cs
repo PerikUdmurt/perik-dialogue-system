@@ -1,21 +1,14 @@
-﻿using SimpleDialogueSystem.Infrastructure.EventBus;
-using System.Collections.Generic;
+﻿using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace SimpleDialogueSystem.Editors.Nodes
 {
-    public class NoteNode: BaseEditorNode
+    public class NoteNode : StickyNote
     {
-        public override void Initialize(Vector2 position, List<IEvent> events = null, string id = null)
+        public void Initialize(Vector2 position, string text)
         {
-            base.Initialize(position, events, id);
-        }
-
-        public override void Draw()
-        {
-            DrawTitleContainer();
-            DrawExtensionContainer();
-            RefreshExpandedState();
+            new Rect(position, Vector2.zero);
+            contents = text;
         }
     }
 }

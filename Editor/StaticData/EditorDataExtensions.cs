@@ -34,11 +34,9 @@ namespace SimpleDialogueSystem.Editors
 
         public static NoteData ToNoteData(this NoteNode note)
         {
-            NoteEvent @event = (NoteEvent)note.Events.First();
             return new NoteData()
             {
-                ID = note.ID,
-                Text = @event.text,
+                Text = note.contents,
                 Position = note.GetPosition().position
             };
         }

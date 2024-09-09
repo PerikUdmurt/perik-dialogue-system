@@ -19,14 +19,14 @@ namespace SimpleDialogueSystem.Editors
             AddStyles();
         }
 
+        public StartNode CreateStartNode(Vector2 position)
+            => _factory.CreateEditorNode<StartNode>(position);
+
         public EditorNode CreateNode(Vector2 position, List<IEvent> events, string id = null)
             => _factory.CreateEditorNode<EditorNode>(position, events, id);
 
-        public NoteNode CreateNoteNode(Vector2 position, string text = "¬ведите текст заметки", string id = null)
-        {
-            List<IEvent> events = new List<IEvent>() { new NoteEvent(text)};
-            return _factory.CreateEditorNode<NoteNode>(position, events, id); 
-        }
+        public NoteNode CreateNoteNode(Vector2 position, string text = "¬ведите текст заметки")
+            => _factory.CreateNote(position, text);
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {

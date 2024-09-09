@@ -7,18 +7,19 @@ namespace SimpleDialogueSystem.Editors
 {
     public class DialogueSystemWindowEditor : EditorWindow
     {
+        private const string TitleContentText = "Dialogue System";
+
         private static DialogueStaticData _staticData;
         
-        [MenuItem("Window/SimpleDialogueSystem/DialogueGraphs")]
         public static void Open()
         {
             DialogueSystemWindowEditor wnd = GetWindow<DialogueSystemWindowEditor>();
-            wnd.titleContent = new GUIContent("DialogueGraph");
+            wnd.titleContent = new GUIContent(TitleContentText);
         }
 
         public static void Open(DialogueStaticData staticData)
         {
-            _staticData = staticData; 
+            _staticData = staticData;
             Open();
         }
 
@@ -26,7 +27,7 @@ namespace SimpleDialogueSystem.Editors
         {
             NodeGraphView graphView = MyElementUtility.AddGraphView();
             Toolbar toolbar = MyElementUtility.AddToolbar();
-            SaveGraphUtility.Init(graphView);
+            SaveGraphUtility.Init(_staticData, graphView);
 
             rootVisualElement.Add(graphView);
             rootVisualElement.Add(toolbar);
