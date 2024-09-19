@@ -1,10 +1,11 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace SimpleDialogueSystem.Editors
 {
-    public static class MyElementUtility
+    public static class UIElementUtility
     {
         public const string TextField = "ds-node__text-field";
         public const string TextFieldHidden = "ds-node__text-field";
@@ -55,15 +56,27 @@ namespace SimpleDialogueSystem.Editors
         {
             Toolbar toolbar = new Toolbar();
 
-            TextField fileNameTextField = MyElementUtility.AddTextField(defaultFileNameLabel, defaultFileName);
+            TextField fileNameTextField = UIElementUtility.AddTextField(defaultFileNameLabel, defaultFileName);
             toolbar.Add(fileNameTextField);
 
-            Button saveButton = MyElementUtility.AddButton("Save");
+            Button saveButton = UIElementUtility.AddButton("Save");
             toolbar.Add(saveButton);
 
             toolbar.AddStylesByPath("DSToolbarStyles.uss");
 
             return toolbar;
+        }
+
+        public static IManipulator CreateContextualMenu(this VisualElement visualElement ,string menuItemName, Action<DropdownMenuAction> action)
+        {
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+                menuEvent => menuEvent.menu.AppendAction(
+                    actionName: menuItemName,
+                    actionEvent => action(actionEvent))
+                );
+
+            visualElement.AddManipulator(contextualMenuManipulator);
+            return contextualMenuManipulator;
         }
     }
 }

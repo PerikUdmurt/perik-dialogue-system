@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SimpleDialogueSystem.Infrastructure.GraphBuilder
 {
-    public class GraphBuilder : IGraphBuilder
+    public class GraphBuilder
     {
 
     }

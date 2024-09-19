@@ -14,11 +14,11 @@ namespace SimpleDialogueSystem.Editors
         {
             Event = @event;
 
-            GetEventType(@event, out Type eventType, out string eventName);
+            GetEventType(@event, out Type eventType, out string eventName, out string hex);
 
             DrawContainer(eventName, ref @event);
 
-            SetStyles();
+            SetStyles(hex);
         }
 
         public virtual void DrawContainer(string name, ref IEvent @event)
@@ -34,18 +34,25 @@ namespace SimpleDialogueSystem.Editors
             this.Add(foldout);
         }
 
-        private void SetStyles()
+        private void SetStyles(string hexcode)
         {
             AddToClassList("ds-node__custom-data-container");
             style.borderLeftWidth = 5;
-            style.borderLeftColor = Color.red;
+            style.borderLeftColor = SetSideColor(hexcode);
         }
 
-        private void GetEventType(IEvent @event, out Type eventType, out string eventName)
+        private static Color SetSideColor(string hexcode)
+        {
+            ColorUtility.TryParseHtmlString(hexcode, out Color color);
+            return color;
+        }
+
+        private void GetEventType(IEvent @event, out Type eventType, out string eventName, out string hex)
         {
             eventType = @event.GetType();
             NodeEventAttribute attribute = (NodeEventAttribute)eventType.GetCustomAttribute(typeof(NodeEventAttribute));
             eventName = attribute.Name;
+            hex = attribute.Hex;
         }
     }
 }

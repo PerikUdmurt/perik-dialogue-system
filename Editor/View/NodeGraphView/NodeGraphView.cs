@@ -1,6 +1,7 @@
 using SimpleDialogueSystem.Editors.Nodes;
 using SimpleDialogueSystem.Events;
 using SimpleDialogueSystem.Infrastructure.EventBus;
+using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -20,13 +21,16 @@ namespace SimpleDialogueSystem.Editors
         }
 
         public StartNode CreateStartNode(Vector2 position)
-            => _factory.CreateEditorNode<StartNode>(position);
+            => _factory.CreateSimpleNode<StartNode>(position);
 
-        public EditorNode CreateNode(Vector2 position, List<IEvent> events, string id = null)
-            => _factory.CreateEditorNode<EditorNode>(position, events, id);
+        public SimpleNode CreateNode(Vector2 position, List<IEvent> events, string id = null)
+            => _factory.CreateSimpleNode<SimpleNode>(position, events, id);
 
-        public NoteNode CreateNoteNode(Vector2 position, string text = "¬ведите текст заметки")
+        public NoteNode CreateStickyNote(Vector2 position, string text = "¬ведите текст заметки")
             => _factory.CreateNote(position, text);
+
+        public ChoicesNode CreateChoicesNode(Vector2 position, List<IEvent> events, string id = null)
+            => _factory.CreateChoicesNode(position, events, id);
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
@@ -56,29 +60,18 @@ namespace SimpleDialogueSystem.Editors
             this.AddManipulator(new SelectionDragger());   
             this.AddManipulator(new RectangleSelector());  
 
-            this.AddManipulator(CreateNodeContextualMenu());
-            this.AddManipulator(CreateNodeContextualMenu2());
+            this.CreateContextualMenu(
+                menuItemName: "Add Node", 
+                actionEvent => CreateNode(actionEvent.eventInfo.localMousePosition, new()));
+            this.CreateContextualMenu(
+                menuItemName: "Add Choices Node",
+                actionEvent => CreateChoicesNode(actionEvent.eventInfo.localMousePosition, new()));
+            this.CreateContextualMenu(
+                menuItemName: "Add Sticky note",
+                actionEvent => CreateStickyNote(actionEvent.eventInfo.localMousePosition));
         }
 
-        private IManipulator CreateNodeContextualMenu()
-        {
-            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction(
-                    actionName: "Add Node", 
-                    actionEvent => CreateNode(actionEvent.eventInfo.localMousePosition, new()))   
-                );
-            return contextualMenuManipulator;
-        }
-
-        private IManipulator CreateNodeContextualMenu2()
-        {
-            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction(
-                    actionName: "Add NoteNode",
-                    actionEvent => CreateNoteNode(actionEvent.eventInfo.localMousePosition))
-                );
-            return contextualMenuManipulator;
-        }
+        
 
         private void AddStyles()
         {

@@ -13,10 +13,20 @@ namespace SimpleDialogueSystem.Editors
             _graphView = graphView;
         }
 
-        public T CreateEditorNode<T>(Vector2 position, List<IEvent> events = null, string id = null) where T : BaseEditorNode, new()
+        public T CreateSimpleNode<T>(Vector2 position, List<IEvent> events = null, string id = null) where T : BaseEditorNode, new()
         {
             T node = new();
             node.Initialize(position, events, id);
+            node.Draw();
+            _graphView.AddElement(node);
+
+            return node;
+        }
+
+        public ChoicesNode CreateChoicesNode(Vector2 position, List<IEvent> events = null, string id = null)
+        {
+            ChoicesNode node = new();
+            node.Initialize(position, new(), events, id);
             node.Draw();
             _graphView.AddElement(node);
 

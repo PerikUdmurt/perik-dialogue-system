@@ -9,7 +9,7 @@ namespace SimpleDialogueSystem.Editors
 {
     public static class EditorDataExtensions
     {
-        public static DialogueNodeStaticData ToDialogueNode(this EditorNode editorNode)
+        public static DialogueNodeStaticData ToDialogueNode(this SimpleNode editorNode)
             => new DialogueNodeStaticData()
             {
                 ID = editorNode.ID,

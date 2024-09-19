@@ -25,8 +25,8 @@ namespace SimpleDialogueSystem.Editors
 
         private void CreateGUI()
         {
-            NodeGraphView graphView = MyElementUtility.AddGraphView();
-            Toolbar toolbar = MyElementUtility.AddToolbar();
+            NodeGraphView graphView = UIElementUtility.AddGraphView();
+            Toolbar toolbar = UIElementUtility.AddToolbar();
             SaveGraphUtility.Init(_staticData, graphView);
 
             rootVisualElement.Add(graphView);

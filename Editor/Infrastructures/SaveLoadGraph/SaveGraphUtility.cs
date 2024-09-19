@@ -16,13 +16,13 @@ namespace SimpleDialogueSystem.Editors
         private static StartNode _startNode;
         private static List<NoteData> _notes;
         private static List<Edge> _edges;
-        private static Dictionary<EditorNode, DialogueNodeStaticData> _nodePairs;
+        private static Dictionary<SimpleNode, DialogueNodeStaticData> _nodePairs;
 
         public static void Init(DialogueStaticData dialogueStaticData, NodeGraphView graphView)
         {
             _staticData = dialogueStaticData;
             _notes = new List<NoteData>();
-            _nodePairs = new Dictionary<EditorNode, DialogueNodeStaticData>();
+            _nodePairs = new Dictionary<SimpleNode, DialogueNodeStaticData>();
             _edges = new List<Edge>();
             _graphView = graphView;
         }
@@ -54,7 +54,7 @@ namespace SimpleDialogueSystem.Editors
             {
                 if (edge.output == port)
                 {
-                    return ((EditorNode)edge.input.node).ID;
+                    return ((SimpleNode)edge.input.node).ID;
                 }
             }
 
@@ -65,11 +65,11 @@ namespace SimpleDialogueSystem.Editors
         {
             foreach (Edge edge in _edges)
             {
-                if (edge.output.node is EditorNode && edge.input.node is EditorNode)
+                if (edge.output.node is SimpleNode && edge.input.node is SimpleNode)
                 {
-                    if (_nodePairs.TryGetValue((EditorNode)edge.output.node, out DialogueNodeStaticData inputDNode))
+                    if (_nodePairs.TryGetValue((SimpleNode)edge.output.node, out DialogueNodeStaticData inputDNode))
                     {
-                        if (_nodePairs.TryGetValue((EditorNode)edge.input.node, out DialogueNodeStaticData outputDNode))
+                        if (_nodePairs.TryGetValue((SimpleNode)edge.input.node, out DialogueNodeStaticData outputDNode))
                         {
                             inputDNode.NextNodesID.Add(outputDNode.ID);
                         }
@@ -97,7 +97,7 @@ namespace SimpleDialogueSystem.Editors
         {
             _graphView.graphElements.ForEach(graphElement =>
             {
-                if (graphElement is EditorNode node)
+                if (graphElement is SimpleNode node)
                 {
                     DialogueNodeStaticData dialogueNode = node.ToDialogueNode();
                     _nodePairs.Add(node, dialogueNode);

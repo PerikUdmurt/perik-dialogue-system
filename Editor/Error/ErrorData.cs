@@ -21,9 +21,9 @@ namespace SimpleDialogueSystem.Editors.Error
     public class NodeErrorData
     {
         public ErrorData ErrorData { get; set; }
-        public List<EditorNode> Nodes { get; set; }
+        public List<SimpleNode> Nodes { get; set; }
 
-        public NodeErrorData(ErrorData errorData, List<EditorNode> nodes)
+        public NodeErrorData(ErrorData errorData, List<SimpleNode> nodes)
         {
             ErrorData = errorData;
             Nodes = nodes;

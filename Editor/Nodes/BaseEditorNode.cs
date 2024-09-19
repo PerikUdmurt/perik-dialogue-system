@@ -45,7 +45,11 @@ namespace SimpleDialogueSystem.Editors.Nodes
         }
         public override void Draw()
         {
-
+            DrawTitleContainer();
+            DrawInputContainer();
+            DrawOutputContainer();
+            DrawExtensionContainer();
+            RefreshExpandedState();
         }
 
         protected Port CreatePort(string portName, Direction direction, Port.Capacity capacity)
@@ -85,7 +89,7 @@ namespace SimpleDialogueSystem.Editors.Nodes
             EventContainer eventContainer = new EventContainer(ref @event);
             eventsContainer.Add(eventContainer);
 
-            Button removeButton = MyElementUtility.AddButton("Remove");
+            Button removeButton = UIElementUtility.AddButton("Remove");
             removeButton.clicked += () => RemoveEventContainer(eventContainer);
             eventContainer.Add(removeButton);
             RefreshExpandedState();
@@ -97,8 +101,6 @@ namespace SimpleDialogueSystem.Editors.Nodes
             titleContainer.Insert(0, label);
         }
 
-
-
         protected virtual void DrawExtensionContainer()
         {
             DropdownField dropdownField = AddEventDropdownField();
@@ -108,7 +110,7 @@ namespace SimpleDialogueSystem.Editors.Nodes
 
         private void AddCreateEventButton(DropdownField dropdownField)
         {
-            Button addbutton = MyElementUtility.AddButton("AddEvent");
+            Button addbutton = UIElementUtility.AddButton("AddEvent");
             addbutton.clicked += () => CreateEventByType(dropdownField.value);
 
             extensionContainer.Add(addbutton);

@@ -16,10 +16,7 @@ namespace SimpleDialogueSystem.Infrastructure.NodePlayer
 
         public void PlayNode(string nodeID)
         {
-            if (_nodes.TryGetValue(nodeID, out Node node))
-            {
-                foreach ()
-            }
+            
         }
 
         public override void PlayNextNode()
@@ -31,23 +28,16 @@ namespace SimpleDialogueSystem.Infrastructure.NodePlayer
         {
 
         }
+
+        public override void SelectNode(int index)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class Node
     {
         private List<string> _nextNodes;
         private List<IEvent> _events;
-
-        public Node(List<Node> nextNodes, List<IEvent> events)
-        {
-            _nextNodes = nextNodes;
-
-            if (events == null)
-                _events = new List<IEvent>();
-            else
-                _events = events;
-        }
-
-        public 
     }
 }
