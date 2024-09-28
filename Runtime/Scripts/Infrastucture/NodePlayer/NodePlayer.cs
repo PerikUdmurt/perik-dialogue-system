@@ -1,43 +1,58 @@
-﻿using SimpleDialogueSystem.Infrastructure.EventBus;
+﻿using SimpleDialogueSystem.DialogueSystem.Nodes;
+using SimpleDialogueSystem.Infrastructure.EventBus;
+using SimpleDialogueSystem.Infrastructure.NodePlayer.NodeHandlers;
+using System;
 using System.Collections.Generic;
 
 namespace SimpleDialogueSystem.Infrastructure.NodePlayer
 {
-    public class NodePlayer : BaseNodePlayer
+    public sealed class NodePlayer : INodePlayer
     {
         private readonly BaseEventBus _eventBus;
-        private Dictionary<string, Node> _nodes;
+        private Dictionary<string, INode> _nodes;
+        private Dictionary<Type, INodeHandler> _nodeHandlers;
 
-        public NodePlayer(BaseEventBus eventBus) 
-        { 
+        public NodePlayer(BaseEventBus eventBus)
+        {
             _eventBus = eventBus;
-            _nodes = new Dictionary<string, Node>();
+            _nodes = new Dictionary<string, INode>();
+
+            _nodeHandlers = new Dictionary<Type, INodeHandler>()
+            {
+                [typeof(SimpleNode)] = new SimpleNodeHandler(_eventBus),
+                [typeof(ChoiceNode)] = new ChoiceNodeHandler(_eventBus),
+                [typeof(ConditionalNode)] = new ConditionalNodeHandler(_eventBus)
+            };
         }
 
         public void PlayNode(string nodeID)
         {
-            
+            if (!_nodes.TryGetValue(nodeID, out INode node))
+                throw new Exception($"Node with id {nodeID} is not founded in dictionary");
+
+            Type nodeType = node.GetType();
+            if (!_nodeHandlers.TryGetValue(nodeType, out INodeHandler handler))
+                throw new Exception($"NodeHandler for type {nodeType.Name} is not founded");
+
+            handler.HandleNode(node);
         }
 
-        public override void PlayNextNode()
-        {
-            
-        }
-
-        public override void StartDialogue(string id)
+        public void PlayNextNode()
         {
 
         }
 
-        public override void SelectNode(int index)
+        public void StartNodeGraph(string id)
         {
-            throw new System.NotImplementedException();
+
         }
     }
+}
 
-    public class Node
+namespace SimpleDialogueSystem.Infrastructure.GraphProviders
+{
+    public class GraphProvider
     {
-        private List<string> _nextNodes;
-        private List<IEvent> _events;
+
     }
 }

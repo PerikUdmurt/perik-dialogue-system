@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace SimpleDialogueSystem.Infrastructure.EventBus
 {
-    // IEventBus
-    public class BaseEventBus
+    public class BaseEventBus : IEventBus
     {
         protected private readonly Dictionary<Type, List<WeakReference<IBaseEventReceiver>>> _receivers;
         protected private readonly Dictionary<int, WeakReference<IBaseEventReceiver>> _receiversHashToReference;
@@ -15,7 +14,7 @@ namespace SimpleDialogueSystem.Infrastructure.EventBus
             _receiversHashToReference = new();
         }
 
-        public void Register<TEvent>(IEventHandler<TEvent> receiver) where TEvent : struct, IEvent
+        public void Register<TEvent>(IEventHandler<TEvent> receiver) where TEvent : IEvent
         {
             Type receiverType = typeof(IEventHandler<TEvent>);
             if (!_receivers.ContainsKey(receiverType))
@@ -27,7 +26,7 @@ namespace SimpleDialogueSystem.Infrastructure.EventBus
             _receiversHashToReference[receiver.GetHashCode()] = reference;
         }
         
-        public void Unregister<T>(IEventHandler<T> reciever) where T : struct, IEvent
+        public void Unregister<T>(IEventHandler<T> reciever) where T : IEvent
         {
             Type eventType = typeof(T);
             int receiverHash = reciever.GetHashCode();
@@ -40,7 +39,7 @@ namespace SimpleDialogueSystem.Infrastructure.EventBus
             _receiversHashToReference.Remove(receiverHash);
         }
 
-        public void Trigger<TEvent>(TEvent @event) where TEvent : struct, IEvent
+        public void Trigger<TEvent>(TEvent @event) where TEvent : IEvent
         {
             Type eventType = typeof(TEvent);
             if (!_receivers.ContainsKey(eventType))

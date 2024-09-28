@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SimpleDialogueSystem.Infrastructure.GraphBuilder
+namespace SimpleDialogueSystem.Infrastructure.GraphProviders
 {
     public class GraphBuilder
     {
