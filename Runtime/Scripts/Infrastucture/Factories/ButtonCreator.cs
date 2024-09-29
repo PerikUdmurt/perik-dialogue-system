@@ -1,4 +1,5 @@
-﻿using SimpleDialogueSystem.Infrastructure.ObjectPool;
+﻿using SimpleDialogueSystem.DialogueSystemModel.View.ChoicesLayer;
+using SimpleDialogueSystem.Infrastructure.ObjectPool;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;

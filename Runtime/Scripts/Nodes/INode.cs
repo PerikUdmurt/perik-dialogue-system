@@ -2,7 +2,7 @@ using SimpleDialogueSystem.Infrastructure.EventBus;
 using SimpleDialogueSystem.StaticDatas;
 using System.Collections.Generic;
 
-namespace SimpleDialogueSystem.DialogueSystem.Nodes
+namespace SimpleDialogueSystem.DialogueSystemModel.Nodes
 {
     public interface INode
     {

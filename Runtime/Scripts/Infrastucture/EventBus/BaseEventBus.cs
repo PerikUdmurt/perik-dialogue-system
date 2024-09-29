@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using UnityEditor.PackageManager;
+using UnityEngine;
 
 namespace SimpleDialogueSystem.Infrastructure.EventBus
 {
@@ -16,7 +19,7 @@ namespace SimpleDialogueSystem.Infrastructure.EventBus
 
         public void Register<TEvent>(IEventHandler<TEvent> receiver) where TEvent : IEvent
         {
-            Type receiverType = typeof(IEventHandler<TEvent>);
+            Type receiverType = typeof(TEvent);
             if (!_receivers.ContainsKey(receiverType))
                 _receivers[receiverType] = new List<WeakReference<IBaseEventReceiver>>();
 
@@ -24,11 +27,12 @@ namespace SimpleDialogueSystem.Infrastructure.EventBus
 
             _receivers[receiverType].Add(reference);
             _receiversHashToReference[receiver.GetHashCode()] = reference;
+            Debug.Log($"[EVENT BUS] Registered event handler {receiver.ToString()} for event {receiverType.Name}");
         }
         
-        public void Unregister<T>(IEventHandler<T> reciever) where T : IEvent
+        public void Unregister<TEvent>(IEventHandler<TEvent> reciever) where TEvent : IEvent
         {
-            Type eventType = typeof(T);
+            Type eventType = typeof(IEventHandler<TEvent>);
             int receiverHash = reciever.GetHashCode();
             if (!_receivers.ContainsKey(eventType) || _receiversHashToReference.ContainsKey(receiverHash))
                 return;
@@ -37,6 +41,7 @@ namespace SimpleDialogueSystem.Infrastructure.EventBus
 
             _receivers[eventType].Remove(reference);
             _receiversHashToReference.Remove(receiverHash);
+            Debug.Log($"[EVENT BUS] Unregistered event handler {reciever.ToString()} for event {eventType.Name}");
         }
 
         public void Trigger<TEvent>(TEvent @event) where TEvent : IEvent
@@ -48,7 +53,10 @@ namespace SimpleDialogueSystem.Infrastructure.EventBus
             foreach (WeakReference<IBaseEventReceiver> reference in _receivers[eventType])
             {
                 if (reference.TryGetTarget(out var receiver))
+                {
                     ((IEventHandler<TEvent>)receiver).OnEvent(@event);
+                    Debug.Log($"[EVENT BUS] Triggered event handler {receiver.ToString()} with event {eventType.Name}");
+                }
             }
         }
     }   

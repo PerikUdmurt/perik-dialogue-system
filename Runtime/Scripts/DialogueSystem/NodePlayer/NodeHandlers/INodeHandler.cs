@@ -1,6 +1,6 @@
-﻿using SimpleDialogueSystem.DialogueSystem.Nodes;
+﻿using SimpleDialogueSystem.DialogueSystemModel.Nodes;
 
-namespace SimpleDialogueSystem.DialogueSystem.NodePlayers.NodeHandlers
+namespace SimpleDialogueSystem.DialogueSystemModel.NodePlayers.NodeHandlers
 {
     public interface INodeHandler
     {

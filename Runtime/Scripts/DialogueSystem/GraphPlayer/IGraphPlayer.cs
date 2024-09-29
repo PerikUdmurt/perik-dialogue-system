@@ -1,6 +1,6 @@
-﻿using SimpleDialogueSystem.DialogueSystem.NodePlayers;
+﻿using SimpleDialogueSystem.DialogueSystemModel.NodePlayers;
 
-namespace SimpleDialogueSystem.DialogueSystem.GraphPlayers
+namespace SimpleDialogueSystem.DialogueSystemModel.GraphPlayers
 {
     public interface IGraphPlayer: INodePlayer
     {

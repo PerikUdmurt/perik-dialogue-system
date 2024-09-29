@@ -1,10 +1,10 @@
-﻿using SimpleDialogueSystem.DialogueSystem.NodePlayers.NodeHandlers;
-using SimpleDialogueSystem.DialogueSystem.Nodes;
+﻿using SimpleDialogueSystem.DialogueSystemModel.NodePlayers.NodeHandlers;
+using SimpleDialogueSystem.DialogueSystemModel.Nodes;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using System;
 using System.Collections.Generic;
 
-namespace SimpleDialogueSystem.DialogueSystem.NodePlayers
+namespace SimpleDialogueSystem.DialogueSystemModel.NodePlayers
 {
     public sealed class NodePlayer : INodePlayer
     {

@@ -1,11 +1,11 @@
-﻿using SimpleDialogueSystem.DialogueSystem.NodePlayers;
-using SimpleDialogueSystem.DialogueSystem.Nodes;
+﻿using SimpleDialogueSystem.DialogueSystemModel.NodePlayers;
+using SimpleDialogueSystem.DialogueSystemModel.Nodes;
 using SimpleDialogueSystem.Events;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using SimpleDialogueSystem.Infrastructure.GraphProviders;
 using System.Collections.Generic;
 
-namespace SimpleDialogueSystem.DialogueSystem.GraphPlayers
+namespace SimpleDialogueSystem.DialogueSystemModel.GraphPlayers
 {
     public class DialoguePlayer : IGraphPlayer, IOnPlayGraphHandler
     {

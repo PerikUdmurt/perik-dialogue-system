@@ -1,7 +1,7 @@
 ﻿using SimpleDialogueSystem.Infrastructure.EventBus;
 using System.Collections.Generic;
 
-namespace SimpleDialogueSystem.DialogueSystem.Nodes
+namespace SimpleDialogueSystem.DialogueSystemModel.Nodes
 {
     public sealed class ConditionalNode : INode
     {

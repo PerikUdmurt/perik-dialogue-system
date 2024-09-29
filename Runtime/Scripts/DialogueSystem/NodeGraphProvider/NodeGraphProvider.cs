@@ -1,4 +1,4 @@
-﻿using SimpleDialogueSystem.DialogueSystem.Nodes;
+﻿using SimpleDialogueSystem.DialogueSystemModel.Nodes;
 using System.Collections.Generic;
 
 namespace SimpleDialogueSystem.Infrastructure.GraphProviders

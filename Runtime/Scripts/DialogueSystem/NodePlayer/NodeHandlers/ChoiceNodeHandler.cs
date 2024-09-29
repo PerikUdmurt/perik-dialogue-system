@@ -1,7 +1,7 @@
-﻿using SimpleDialogueSystem.DialogueSystem.Nodes;
+﻿using SimpleDialogueSystem.DialogueSystemModel.Nodes;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 
-namespace SimpleDialogueSystem.DialogueSystem.NodePlayers.NodeHandlers
+namespace SimpleDialogueSystem.DialogueSystemModel.NodePlayers.NodeHandlers
 {
     public class ChoiceNodeHandler : BaseNodeHandler<ChoiceNode>
     {

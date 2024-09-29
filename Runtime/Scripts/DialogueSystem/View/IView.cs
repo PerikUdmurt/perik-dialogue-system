@@ -1,4 +1,4 @@
-﻿namespace SimpleDialogueSystem.DialogueSystem.View
+﻿namespace SimpleDialogueSystem.DialogueSystemModel.View
 {
     public interface IView
     {

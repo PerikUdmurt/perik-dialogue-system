@@ -1,27 +1,25 @@
-using SimpleDialogueSystem.DialogueSystem.View;
+using SimpleDialogueSystem.DialogueSystemModel.View;
+using SimpleDialogueSystem.DialogueSystemModel.View.DialogueLayer;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using System;
 using UnityEngine;
 
-namespace SimpleDialogueSystem.DialogueSystem
+namespace SimpleDialogueSystem.DialogueSystemModel
 {
     public class MonoDialogueSystem : MonoBehaviour
     {
         [Serializable]
-        public class DialogueSystemEditorData
-        {
-            [SerializeReference] public IEvent Event;
-        }
+        public class DialogueSystemEditorData { [SerializeReference] public IEvent Event; }
 
         public DialogueSystemEditorData EditorData;
 
-        [SerializeField] private DialogueShowerView _dialogueView;
+        [SerializeField] private DialogueSystemView _dialogueView;
 
         private DialogueSystem _dialogueSystem;
 
         private void Awake()
         {
-            _dialogueSystem = new();
+            _dialogueSystem = new(_dialogueView);
             DontDestroyOnLoad(gameObject);
         }
 

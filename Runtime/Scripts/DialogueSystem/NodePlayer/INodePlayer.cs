@@ -1,4 +1,4 @@
-﻿namespace SimpleDialogueSystem.DialogueSystem.NodePlayers
+﻿namespace SimpleDialogueSystem.DialogueSystemModel.NodePlayers
 {
     public interface INodePlayer
     {

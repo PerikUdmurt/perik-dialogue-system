@@ -1,6 +1,5 @@
 ﻿using SimpleDialogueSystem.Infrastructure.ObjectPool;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace SimpleDialogueSystem.Infrastructure.Factories
@@ -38,16 +37,6 @@ namespace SimpleDialogueSystem.Infrastructure.Factories
             {
                 ReleasePhraseBlock(_createdBlocks[i]);
             }
-        }
-    }
-
-    public class PhraseBlock: MonoBehaviour
-    {
-        [SerializeField] private TextMeshProUGUI text;
-
-        public void Init(BlockData blockData)
-        {
-            text.text = blockData.text;
         }
     }
 }

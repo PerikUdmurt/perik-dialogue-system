@@ -1,4 +1,4 @@
-using SimpleDialogueSystem.DialogueSystem;
+using SimpleDialogueSystem.DialogueSystemModel;
 using SimpleDialogueSystem.Editors;
 using SimpleDialogueSystem.Infrastructure.EventBus;
 using System;
@@ -48,7 +48,6 @@ public class DialogueSystemCustomInspector : Editor
 
             if (GUILayout.Button("Trigger Event"))
             {
-                Debug.Log($"Triggered Event {_dialogueSystem.EditorData.Event}");
                 _dialogueSystem.Trigger(_dialogueSystem.EditorData.Event);
             }
         }
